@@ -75,9 +75,9 @@ public class Paddle : MonoBehaviour
 
     private void Move(float movement)
     {
-        Vector2 velo = rb2d.velocity;
+        Vector2 velo = rb2d.linearVelocity;
         velo.y = moveSpeed * moveSpeedMultiplier * movement;
-        rb2d.velocity = velo;
+        rb2d.linearVelocity = velo;
     }
 
     public float GetHeight()

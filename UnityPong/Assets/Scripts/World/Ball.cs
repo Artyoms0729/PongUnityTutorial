@@ -40,7 +40,7 @@ public class Ball : MonoBehaviour
         Vector2 dir = Random.value < 0.5f ? Vector2.left : Vector2.right;
 
         dir.y = Random.Range(-maxInitialAngle, maxInitialAngle);
-        rb2d.velocity = dir * moveSpeed;
+        rb2d.linearVelocity = dir * moveSpeed;
 
         EmitParticle(32);
     }
@@ -68,10 +68,10 @@ public class Ball : MonoBehaviour
         if(paddle)
         {
             ballAudio.PlayPaddleSound();
-            rb2d.velocity *= speedMultiplier;
+            rb2d.linearVelocity *= speedMultiplier;
             EmitParticle(16);
             AdjustAngle(paddle, collision);
-            GameManager.instance.screenshake.StartShake(Mathf.Sqrt(rb2d.velocity.magnitude) * 0.02f, 0.075f);
+            GameManager.instance.screenshake.StartShake(Mathf.Sqrt(rb2d.linearVelocity.magnitude) * 0.02f, 0.075f);
         }
 
         Wall wall = collision.collider.GetComponent<Wall>();
@@ -110,14 +110,14 @@ public class Ball : MonoBehaviour
 
         // calculate direction / velocity
         Vector2 dir = paddle.IsLeftPaddle() ? Vector2.right : Vector2.left;
-        Vector2 velocity = rot * dir * rb2d.velocity.magnitude;
-        rb2d.velocity = velocity;
+        Vector2 velocity = rot * dir * rb2d.linearVelocity.magnitude;
+        rb2d.linearVelocity = velocity;
         Debug.DrawRay(median, velocity, Color.green, 1f);
     }
 
     private void AdjustSpriteRotation()
     {
-        spriteRenderer.flipY = rb2d.velocity.x < 0f;
+        spriteRenderer.flipY = rb2d.linearVelocity.x < 0f;
     }
 
     private void EmitParticle(int amount)
